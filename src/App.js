@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import QuestionNumber from "./components/QuestionNumber";
 import QuestionList from "./components/QuestionList";
+import Result from "./components/Result";
 import "./App.css";
 import data from "./data";
 
@@ -15,12 +16,32 @@ class App extends Component {
     console.log(this.state.questions);
   }
 
+  setScore(score) {
+    this.setState({ score });
+  }
+
+  setCurrent(current) {
+    this.setState({ current });
+  }
+
+  newQuiz(e) {
+    e.preventDefault();
+    this.setState({
+      score: 0,
+      current: 1
+    });
+  }
+
   render() {
     const { current, questions } = this.state;
+    var display, result;
 
     if (current < questions.length) {
-      var display = <QuestionNumber {...this.state} />;
-      var result = "";
+      display = <QuestionNumber {...this.state} />;
+      result = "";
+    } else {
+      display = "";
+      result = <Result {...this.state} newQuiz={this.newQuiz.bind(this)} />;
     }
 
     return (
@@ -31,7 +52,12 @@ class App extends Component {
           <div className="jumbotron">
             <div className="card-body">
               {display}
-              <QuestionList {...this.state} />
+              <QuestionList
+                {...this.state}
+                setScore={this.setScore.bind(this)}
+                setCurrent={this.setCurrent.bind(this)}
+              />
+              {result}
             </div>
           </div>
         </div>

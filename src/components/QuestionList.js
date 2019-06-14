@@ -7,9 +7,11 @@ export default class QuestionList extends Component {
 
     return (
       <div>
-        {questions.map((question) => {
+        {questions.map(question => {
           if (question.id === current) {
-            return <Question question={question} key={question.id} />;
+            return (
+              <Question {...this.props} question={question} key={question.id} />
+            );
           }
         })}
       </div>
